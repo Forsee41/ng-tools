@@ -18,6 +18,8 @@ type GlobalModifiers struct {
 	Lores           Lores
 	ClanBonuses     ClanBonuses
 	Kraken5Wyrd     bool
+	Happiness       float64
+	JarActive       bool
 }
 
 type Tile struct {
