@@ -6,20 +6,21 @@ type FoodCalcInput struct {
 }
 
 type GlobalModifiers struct {
-	SqrlWinterPrep  bool
-	Winter          bool
-	Forges          Forges
-	Feast           bool
-	FeastGoat       bool
-	FeastGoatRelic  bool
-	Overwork        bool
-	Stag500Stacks   int // # of stacks of 200 fame
-	OxMilitaryUnits int
-	Lores           Lores
-	ClanBonuses     ClanBonuses
-	Kraken5Wyrd     bool
-	Happiness       float64
-	JarActive       bool
+	SqrlWinterPrep    bool
+	Winter            bool
+	Forges            Forges
+	Feast             bool
+	FeastGoat         bool
+	FeastGoatRelic    bool
+	Overwork          bool
+	Stag500Stacks     int // # of stacks of 200 fame
+	OxMilitaryUnits   int
+	Lores             Lores
+	ClanBonuses       ClanBonuses
+	Kraken5Wyrd       bool
+	Happiness         float64
+	JarActive         bool
+	ValhallaEventBuff bool // idk
 }
 
 type Tile struct {
