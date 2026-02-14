@@ -21,7 +21,7 @@ type GlobalModifiers struct {
 
 type Tile struct {
 	Modifiers        TileModifiers
-	FoodBuildings    []FoodBuildingType
+	FoodBuildings    []FoodBuilding
 	LayOfTheLandTile bool
 }
 
