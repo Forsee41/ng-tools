@@ -17,12 +17,12 @@ type GlobalModifiers struct {
 	OxMilitaryUnits int
 	Lores           Lores
 	ClanBonuses     ClanBonuses
+	Kraken5Wyrd     bool
 }
 
 type Tile struct {
-	Modifiers        TileModifiers
-	FoodBuildings    []FoodBuilding
-	LayOfTheLandTile bool
+	Modifiers     TileModifiers
+	FoodBuildings []FoodBuilding
 }
 
 type TileModifiers struct {
@@ -37,6 +37,7 @@ type TileModifiers struct {
 	SpectralWarrior           bool
 	SqrlEldritchBuff          bool // idk
 	AdvancedProspectionStacks int
+	LayOfTheLandTile          bool
 }
 
 type FoodBuilding struct {
