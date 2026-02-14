@@ -65,7 +65,6 @@ type Lores struct {
 	BoarFreya           bool
 	Eradication         bool
 	Harpoons            bool
-	WinterFestival      bool
 	Herbalism           bool
 	Handiwork           bool
 	BloodSweatTears     bool // thralls give bonus prod
