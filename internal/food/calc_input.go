@@ -20,8 +20,9 @@ type GlobalModifiers struct {
 }
 
 type Tile struct {
-	Modifiers     TileModifiers
-	FoodBuildings []FoodBuildingType
+	Modifiers        TileModifiers
+	FoodBuildings    []FoodBuildingType
+	LayOfTheLandTile bool
 }
 
 type TileModifiers struct {
@@ -67,6 +68,7 @@ type Lores struct {
 	BloodSweatTears     bool // thralls give bonus prod
 	VolundFire          bool // prod forges are more efficient
 	AdvancedProspection bool
+	LayOfTheLand        bool
 }
 
 type ClanBonuses struct {
