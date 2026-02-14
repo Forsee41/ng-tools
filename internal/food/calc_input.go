@@ -1,6 +1,6 @@
 package food
 
-type CalcInput struct {
+type FoodCalcInput struct {
 	GlobalModifiers GlobalModifiers
 	Tiles           []Tile
 }
@@ -47,8 +47,7 @@ type FoodBuilding struct {
 	WorkersAmount  int
 	SlavesAmount   int
 	UnhappyAmount  int
-	StarvingAmount int
-	FreezingAmount int
+	InjuredAmount  int
 	BrawlersAmount int
 	Upgraded       bool
 }
