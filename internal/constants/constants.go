@@ -30,6 +30,9 @@ var LayOfTheLandMulti = 0.1
 var HandiworkMulti = 0.15
 var DepletedFieldPenaltyMulti = 0.5      // TODO: check, verify additive
 var AdvancedProspectionStackMulti = 0.05 // TODO: check
+var LynxImplicitHuntersMulti = 0.1
+var HarpoonsMulti = 0.2
+var KrakenImplicitFishMulti = 0.1 // TODO: check
 
 var ForgeMulti = 0.15
 var VolundFireForgeMulti = 0.2 // TODO: check

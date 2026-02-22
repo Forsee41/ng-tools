@@ -8,12 +8,12 @@ type FoodCalcInput struct {
 type GlobalModifiers struct {
 	SqrlWinterPrep    bool // done
 	Winter            bool
-	Forges            Forges
+	Forges            Forges  // done
 	Feast             bool    // done
 	FeastGoat         bool    // done
 	FeastGoatRelic    bool    // done
 	Overwork          bool    // done
-	Stag500Stacks     int     // # of stacks of 200 fame // done
+	Stag500Stacks     int     // done
 	OxMilitaryUnits   int     // done
 	Kraken5Wyrd       bool    // done
 	Happiness         float64 // done
@@ -24,6 +24,7 @@ type GlobalModifiers struct {
 }
 
 type Tile struct {
+	Id            int
 	Modifiers     TileModifiers
 	FoodBuildings []FoodBuilding
 }
@@ -41,23 +42,24 @@ type TileModifiers struct {
 	SpectralWarrior           bool // done
 	SqrlEldritchBuff          bool // TODO: check mechanics
 	AdvancedProspectionStacks int  // done
-	LayOfTheLandTile          bool
+	LayOfTheLandTile          bool // done
 }
 
 type FoodBuilding struct {
+	Id             int
 	BuildingType   FoodBuildingType
 	WorkersAmount  int
 	SlavesAmount   int
 	UnhappyAmount  int // done
 	InjuredAmount  int // done
 	BrawlersAmount int
-	Upgraded       bool
+	Upgraded       bool // done
 }
 
 type Forges struct {
-	Farm bool
-	Fish bool
-	Deer bool
+	Farm bool // done
+	Fish bool // done
+	Deer bool // done
 }
 
 type Lores struct {
@@ -65,11 +67,11 @@ type Lores struct {
 	Freya               bool
 	BoarFreya           bool
 	Eradication         bool // done
-	Harpoons            bool
+	Harpoons            bool // done
 	Herbalism           bool // done
 	Handiwork           bool // done
 	BloodSweatTears     bool // thralls give bonus prod
-	VolundFire          bool // prod forges are more efficient
+	VolundFire          bool // done
 	AdvancedProspection bool // done
 	LayOfTheLand        bool // done
 }
@@ -83,6 +85,6 @@ type ClanBonuses struct {
 	Kraken200Buff    bool // done
 	OxImplicit       bool // done
 	Ox200Buff        bool // done
-	LynxImplicit     bool // hunter prod buff
+	LynxImplicit     bool // done
 	SquirrelImplicit bool // done winter prep, TODO: winter
 }

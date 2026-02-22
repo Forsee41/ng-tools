@@ -1,6 +1,8 @@
 package food
 
 import (
+	"fmt"
+
 	"github.com/Forsee41/ng-tools/internal/constants"
 )
 
@@ -10,7 +12,7 @@ type FoodBuildingTileUpgrades struct {
 	DeerUpgrades int
 }
 
-func (fbu *FoodBuildingTileUpgrades) GetTargetFoodUpgrades(fbt FoodBuildingType) int {
+func (fbu *FoodBuildingTileUpgrades) GetTargetFoodTileBuildingUpgrades(fbt FoodBuildingType) int {
 	switch fbt {
 	case FishCabin:
 		return fbu.FishUpgrades
@@ -28,16 +30,18 @@ type FoodTypeMultiCalculator func(
 	foodBuildingTypeUpgrades int,
 ) float64
 
+var foodBuildingTypeMultiCalcMap = map[FoodBuildingType]FoodTypeMultiCalculator{
+	FishCabin:    FishMultiCalculator,
+	HuntersLodge: DeerMultiCalculator,
+	Farm:         FarmMultiCalculator,
+}
+
 func (fbt FoodBuildingType) GetFoodSpecificMultiCalc() FoodTypeMultiCalculator {
-	switch fbt {
-	case FishCabin:
-		return FishMultiCalculator
-	case HuntersLodge:
-		return DeerMultiCalculator
-	case Farm:
-		return FarmMultiCalculator
+	calc, ok := foodBuildingTypeMultiCalcMap[fbt]
+	if !ok {
+		return nil
 	}
-	return nil
+	return calc
 }
 
 func FishMultiCalculator(
@@ -45,20 +49,64 @@ func FishMultiCalculator(
 	tm *TileModifiers,
 	fishBuildingTileUpgrades int,
 ) float64 {
-	return 0.0
+	result := 0.0
+	if gm.Forges.Fish {
+		if gm.Lores.VolundFire {
+			result += constants.VolundFireForgeMulti
+		} else {
+			result += constants.ForgeMulti
+		}
+	}
+	result += float64(fishBuildingTileUpgrades) * constants.BuildingUpgradeMulti
+
+	if gm.Lores.Harpoons {
+		result += constants.HarpoonsMulti
+	}
+
+	if gm.ClanBonuses.KrakenImplicit {
+		result += constants.KrakenImplicitFishMulti
+	}
+
+	return result
 }
+
 func DeerMultiCalculator(
 	gm *GlobalModifiers,
 	tm *TileModifiers,
 	deerBuildingTileUpgrades int,
 ) float64 {
-	return 0.0
+	result := 0.0
+	if gm.Forges.Deer {
+		if gm.Lores.VolundFire {
+			result += constants.VolundFireForgeMulti
+		} else {
+			result += constants.ForgeMulti
+		}
+	}
+
+	result += float64(deerBuildingTileUpgrades) * constants.BuildingUpgradeMulti
+
+	if gm.ClanBonuses.LynxImplicit {
+		result += constants.LynxImplicitHuntersMulti
+	}
+
+	return result
 }
+
 func FarmMultiCalculator(gm *GlobalModifiers,
 	tm *TileModifiers,
 	farmBuildingTileUpgrades int,
 ) float64 {
-	return 0.0
+	result := 0.0
+	if gm.Forges.Farm {
+		if gm.Lores.VolundFire {
+			result += constants.VolundFireForgeMulti
+		} else {
+			result += constants.ForgeMulti
+		}
+	}
+	result += float64(farmBuildingTileUpgrades) * constants.BuildingUpgradeMulti
+	return result
 }
 
 func CalcCommonModifiersMultiplier(gm *GlobalModifiers, tm *TileModifiers, upgraded bool) float64 {
@@ -167,23 +215,30 @@ func (fb *FoodBuilding) CalcWorkersTotalDebuff(dragonImplicit bool) float64 {
 func (fb *FoodBuilding) CalcModifiersMultiplier(
 	gm *GlobalModifiers,
 	tm *TileModifiers,
-	fbu *FoodBuildingTileUpgrades,
-) float64 {
+	fbtu *FoodBuildingTileUpgrades,
+) (float64, error) {
 	foodSpecificCalc := fb.BuildingType.GetFoodSpecificMultiCalc()
-	buildingUpgrades := fbu.GetTargetFoodUpgrades(fb.BuildingType)
+	if foodSpecificCalc == nil {
+		return 0.0, fmt.Errorf("Couldn't retrieve food calculator for food type %s", fb.BuildingType)
+	}
+	buildingUpgrades := fbtu.GetTargetFoodTileBuildingUpgrades(fb.BuildingType)
 	result := 1.0
 	result += CalcCommonModifiersMultiplier(gm, tm, fb.Upgraded)
 	result += foodSpecificCalc(gm, tm, buildingUpgrades)
-	return result
+	return result, nil
 }
 
 func (fb *FoodBuilding) CalcProduction(
 	gm *GlobalModifiers,
 	tm *TileModifiers,
-	fbu *FoodBuildingTileUpgrades,
-) float64 {
+	fbtu *FoodBuildingTileUpgrades,
+) (float64, error) {
 	baseProd := fb.BuildingType.GetBaseProduction()
-	prodMulti := fb.CalcModifiersMultiplier(gm, tm, fbu) * float64(fb.WorkersAmount)
+	prodMulti, err := fb.CalcModifiersMultiplier(gm, tm, fbtu)
+	if err != nil {
+		return 0.0, err
+	}
+	prodMulti *= float64(fb.WorkersAmount)
 	prodMulti -= fb.CalcWorkersTotalDebuff(gm.ClanBonuses.DragonImplicit)
-	return prodMulti * baseProd
+	return prodMulti * baseProd, nil
 }
