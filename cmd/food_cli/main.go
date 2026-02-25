@@ -1,5 +1,7 @@
-package food_cli
+package main
+
+import "fmt"
 
 func main() {
-	return
+	fmt.Println("Hello")
 }
