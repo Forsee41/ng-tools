@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	components "github.com/Forsee41/ng-tools/components/templ"
+	components "github.com/Forsee41/ng-tools/components"
 	"github.com/joho/godotenv"
 )
 
