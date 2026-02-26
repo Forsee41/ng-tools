@@ -5,3 +5,4 @@ components/*templ.go
 frontend/*
 !frontend/src
 !frontend/assets
+frontend/src/styles.css

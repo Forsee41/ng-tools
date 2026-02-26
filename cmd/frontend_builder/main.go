@@ -24,7 +24,7 @@ func main() {
 	filename := "index.html"
 	fullFilename := filepath.Join(frontendDir, filename)
 
-	f, err := os.OpenFile(fullFilename, os.O_CREATE|os.O_RDWR, 0644)
+	f, err := os.OpenFile(fullFilename, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Println("cant open file, ", err)
 		return
@@ -32,6 +32,12 @@ func main() {
 	defer f.Close()
 
 	ctx := context.Background()
+	err = f.Truncate(0)
+	if err != nil {
+		fmt.Println("Unable to truncate file, ", err)
+		return
+	}
+
 	err = components.Index().Render(ctx, f)
 	if err != nil {
 		fmt.Println(err)
