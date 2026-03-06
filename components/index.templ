@@ -8,13 +8,12 @@ templ Index() {
 			<meta name="viewport" content="width=device-width, initial-scale=1"/>
 			<title>Hello</title>
 			<link href="src/styles.css" rel="stylesheet"/>
+			<script defer type="module" src="src/index.js"></script>
 		</head>
-		<body>
+		<body x-data="{ currentPage: 'home' }">
 			@Navbar()
-
-			<p class="">Templ Generated!</p>
-
-			<h1>Hello!</h1>
+			@Home()
+			@FoodBase()
 		</body>
 	</html>
 }

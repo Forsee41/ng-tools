@@ -1,20 +1,14 @@
 package components
 
 templ Navbar() {
-	<nav>
-		@NavHome()
-		@NavFood()
+	<nav class="fixed top-0 right-0 left-0 flex bg-gray-950 z-10">
+		@NavItem("Home", "home")
+		@NavItem("Food", "food")
 	</nav>
 }
 
-templ NavHome() {
-	<div class="">
-		<p class="">Home</p>
-	</div>
-}
-
-templ NavFood() {
-	<div class="">
-		<p>Food</p>
+templ NavItem(name string, targetPage string) {
+	<div class="text-gray-100 flex-1 flex justify-center items-center hover:bg-gray-900 active:bg-gray-700">
+		<button type="button" class="w-full py-2" @click={ "currentPage = '" + targetPage + "'" }>{ name }</button>
 	</div>
 }
